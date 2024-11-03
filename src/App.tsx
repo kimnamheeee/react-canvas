@@ -3,7 +3,7 @@ import Canvas from "./Canvas/Canvas"
 function App() {
 
   return (
-    <Canvas />
+    <Canvas width={800} height={500}/>
   )
 }
 
