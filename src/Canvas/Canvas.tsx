@@ -1,14 +1,11 @@
 import { useRef, useEffect } from "react"
 
-export default function Canvas({ ... props }) {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+interface CanvasProps extends React.CanvasHTMLAttributes<HTMLCanvasElement> {
+    draw: (context: CanvasRenderingContext2D, frameCount: number) => void;
+}
 
-    const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle = 'grey';
-        const delta = frameCount % 800;
-        ctx.fillRect(10 + delta, 10, 100, 100);
-    }
+export default function Canvas({ draw, ...props }: CanvasProps) {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -28,7 +25,7 @@ export default function Canvas({ ... props }) {
         return () => {
             window.cancelAnimationFrame(animationFrameId);
         }
-    }, []);
+    }, [draw]);
 
     return (
         <canvas ref={canvasRef} {...props} />
